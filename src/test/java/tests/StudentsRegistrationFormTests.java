@@ -16,7 +16,6 @@ import static io.qameta.allure.SeverityLevel.BLOCKER;
 public class StudentsRegistrationFormTests extends BaseTest {
     StudentRegistrationScenario test;
 
-
     @Feature("Positive tests")
     @Story("Totally filled form")
     @Test
@@ -30,12 +29,25 @@ public class StudentsRegistrationFormTests extends BaseTest {
     }
 
     @Feature("Positive tests")
+    @Story("Form filled partly")
+    @Test
+    @Tag("positive")
+    @Severity(BLOCKER)
+    @DisplayName("Test 02: Check Student form registration for full form filled with not only required fields.")
+    public void test02studentRegForm( ) {
+        Student student = new Student(true);
+        student.setHobbies(1);
+        test = new StudentRegistrationScenario( );
+        test.successStudentRegisterScenario(student);
+    }
+
+    @Feature("Positive tests")
     @Story("Form filled in minimal way")
     @Test
     @Tag("positive")
     @Severity(BLOCKER)
-    @DisplayName("Test 02: Check Student form registration for full form only required fields fill.")
-    public void test02studentRegForm( ) {
+    @DisplayName("Test 03: Check Student form registration for full form only required fields fill.")
+    public void test03studentRegForm( ) {
         Student student = new Student(true);
         test = new StudentRegistrationScenario( );
         test.successStudentRegisterScenario(student);
@@ -46,8 +58,8 @@ public class StudentsRegistrationFormTests extends BaseTest {
     @Test
     @Tag("negative")
     @Severity(BLOCKER)
-    @DisplayName("Test 03: Check unsuccessful Student form registration for not filled required field `First Name`.")
-    public void test03studentRegForm( ) {
+    @DisplayName("Test 04: Check unsuccessful Student form registration for not filled required field `First Name`.")
+    public void test04studentRegForm( ) {
         String fieldName = "firstName";
         Student student = new Student(true);
         student.setFirstName(null);
@@ -60,11 +72,25 @@ public class StudentsRegistrationFormTests extends BaseTest {
     @Test
     @Tag("negative")
     @Severity(BLOCKER)
-    @DisplayName("Test 04: Check unsuccessful Student form registration for not filled required field `Last Name`.")
-    public void test04studentRegForm( ) {
+    @DisplayName("Test 05: Check unsuccessful Student form registration for not filled required field `Last Name`.")
+    public void test05studentRegForm( ) {
         String fieldName = "lastName";
         Student student = new Student(true);
         student.setLastName(null);
+        test = new StudentRegistrationScenario( );
+        test.unSuccessStudentRegisterScenario(student, fieldName);
+    }
+
+    @Feature("Negative tests")
+    @Story("Incomplete form")
+    @Test
+    @Tag("negative")
+    @Severity(BLOCKER)
+    @DisplayName("Test 06: Check unsuccessful Student form registration for not filled required field `Mobile Number`.")
+    public void test06studentRegForm( ) {
+        String fieldName = "userNumber";
+        Student student = new Student(true);
+        student.setMobileNum(null);
         test = new StudentRegistrationScenario( );
         test.unSuccessStudentRegisterScenario(student, fieldName);
     }
@@ -74,8 +100,19 @@ public class StudentsRegistrationFormTests extends BaseTest {
     @Test
     @Tag("failed")
     @Severity(BLOCKER)
-    @DisplayName("Test 05: Failed test.")
-    public void test05studentRegForm( ) {
+    @DisplayName("Test 07: Failed test.")
+    public void test07studentRegForm( ) {
+        test = new StudentRegistrationScenario( );
+        test.failedTest( );
+    }
+
+    @Feature("Failed tests")
+    @Story("Other one Test failed in purpose")
+    @Test
+    @Tag("failed")
+    @Severity(BLOCKER)
+    @DisplayName("Test 07:Second failed test.")
+    public void test08studentRegForm( ) {
         test = new StudentRegistrationScenario( );
         test.failedTest( );
     }

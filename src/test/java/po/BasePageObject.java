@@ -7,7 +7,6 @@ import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 import static java.lang.String.format;
-import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 import static org.openqa.selenium.Keys.*;
 
@@ -33,11 +32,13 @@ public class BasePageObject {
             String genderName = $(cssGender).getValue( );
             student.setGender(genderName);
         }
-        $("#userNumber").setValue(student.getMobileNum( ));
+        ofNullable(student.getMobileNum( )).ifPresent(s -> $("#userNumber").setValue(student.getMobileNum( )));
+        //$("#userNumber").setValue(student.getMobileNum( ));
         ofNullable(student.getBirthDate( )).ifPresent(s ->
                 $("#dateOfBirthInput").sendKeys(chord(CONTROL, "a") + student.getBirthDateIn( ) + ENTER));
         ofNullable(student.getSubjects( )).ifPresent(s -> $("#subjectsInput").setValue(student.getSubjects( )).pressEnter( ));
-        of(student.getHobbies( )).ifPresent(s -> $(format("#hobbies-checkbox-%s", student.getHobbies( ))).parent( ).click( ));
+        if (student.getHobbies( ) != 0)
+            $(format("#hobbies-checkbox-%s", student.getHobbies( ))).parent( ).click( );
         ofNullable(student.getAddress( )).ifPresent(s -> $("#currentAddress").setValue(student.getAddress( )).pressEnter( ));
         ofNullable(student.getState( )).ifPresent(s -> $("#react-select-3-input").setValue(student.getState( )).pressEnter( ));
         ofNullable(student.getCity( )).ifPresent(s -> $("#react-select-4-input").setValue(student.getCity( )).pressEnter( ));
@@ -73,5 +74,4 @@ public class BasePageObject {
     public void emptyField(String field) {
         $(("#" + field)).shouldBe(empty);
     }
-
 }

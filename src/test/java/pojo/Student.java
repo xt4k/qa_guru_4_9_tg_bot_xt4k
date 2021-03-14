@@ -154,4 +154,12 @@ public class Student {
                 ", genderName='" + genderName + '\'' +
                 '}';
     }
+
+    public void setMobileNum(String mob) {
+        mobileNum=mob;
+    }
+
+    public void setHobbies(int i) {
+        hobbies=i;
+    }
 }
